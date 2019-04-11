@@ -5,8 +5,15 @@ $(document).ready(function () {
 // placing our keys here so we can reuse ajax method
     var apiKeys = [
         {
+            api: 'geolocation',
             key: '8bf6f7f9f28c7ed5495f6f6353d07d28a05c6bb9fbab598f32e7cba3',
             url: 'https://api.ipdata.co/?api-key=',
+        },
+        {
+            api: 'events',
+            key: 'RWZMsGXPj9h35CHD',
+            zip: '30316',
+            url: 'http://eventful.com/json/events?q=music&l=30316&app_key=',
         }
     ];
 // < --- ========== End API KEYS ========== --- >
@@ -17,11 +24,11 @@ $(document).ready(function () {
     $.ajax({
         url: queryURL,
         method: "GET",
+        dataType: 'jsonp',
     }).then(function (response) {
         // do a bunch of cool things with our returned json data here
 
-        let location = `${'<div>'}${'<br>'}Hello there! Welcome to ${response.city}`;
-        $('.yourdiv').append(location);
+       
         console.log(response); // preserved this just in case i need to quickly console this json data out 
     });
 
@@ -38,3 +45,29 @@ $(document).ready(function () {
 
 
 // 8bf6f7f9f28c7ed5495f6f6353d07d28a05c6bb9fbab598f32e7cba3
+
+/* Zomato - restaurants
+
+🔑 - 68eb0060bac91f9d51a849356a1720f1
+
+Documentation - developers.zomato.com/docu…
+
+IMDB - movies (1000 per day max)
+
+🔑 - 69b945e06fmsh34874c0e87f7ddcp13b6f5jsn04b50333f22b
+
+Documentation - I don't know. rapidAPI I guess
+
+Food2Fork - socially ranked recipes
+
+🔑 - 619bb582bcf5cdc9781f54942ddc1335
+
+JSON - www.food2fork.com/api…
+
+Eventful - events (I got 2 keys on accident)
+
+🔑 - RWZMsGXPj9h35CHD
+
+🔑 - nSGqTC7S89C8cvd5
+
+Documentation - api.eventful.com/ */
