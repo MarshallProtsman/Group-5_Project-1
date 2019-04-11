@@ -15,10 +15,25 @@ At home: recipes and movies
 Out: events and entertainment (populated based on user preferences and location)
 
 # APIs:
-Zomato - restaurants
-IMDB - movies
+OpenTable - restaurants
+http://opentable.herokuapp.com/api
+
+Fandango
+Key - wyaxqjzqha6ajc32txybx3xa
+Secret - u3njjEvr7s
+
+IMDB - movies (1000 per day max)
+Key - 69b945e06fmsh34874c0e87f7ddcp13b6f5jsn04b50333f22b
+Documentation - 
+
 Food2Fork - socially ranked recipes
-Eventful - events
+Key - 619bb582bcf5cdc9781f54942ddc1335
+
+
+Eventful - events (I got 2 keys on accident)
+Key - RWZMsGXPj9h35CHD
+Key - nSGqTC7S89C8cvd5
+
 Wishlist API - CocktailDB (drinks)
 
 # Tasks 
