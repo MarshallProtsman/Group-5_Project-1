@@ -32,12 +32,11 @@ $(document).ready(function () {
         dataType: 'jsonp',
     }).then(function (response) {
         // do a bunch of cool things with our returned json data here
-
-       
-        console.log(response); // preserved this just in case i need to quickly console this json data out 
+    console.log(response); // preserved this just in case i need to quickly console this json data out 
     });
-
-    };
+    
+};
+API(); // calling our location API
 
     var queryURL = apiKeys[2].url;
 
