@@ -1,8 +1,11 @@
 let apiResponse = [];
+let userZip = '';
+let choice = '';
+let key = '';
 
 $(document).ready(function () {
 
-    // < --- ========== Begin API KEYS ========== --- >
+    // < --- ==================== Begin API KEYS ========== ==========--- >
     // placing our keys here so we can reuse ajax method
     let apiKeys = [
         {
@@ -11,7 +14,7 @@ $(document).ready(function () {
             params: [],
             url: 'https://api.ipdata.co/?api-key=',
         },
-        // extra  template api object
+        // extra template api object
         // {
         //     api: '',
         //     key: '',
@@ -19,14 +22,15 @@ $(document).ready(function () {
         // },
         {
             api: 'events',
+            zip: '',
             key: '1WLkNy3Qylx70A9ds5a5gXCT2PNoGeGq',
-            url: 'https://app.ticketmaster.com/discovery/v1/events.apiResponse?apikey='
+            url: 'https://app.ticketmaster.com/discovery/v1/events/postalCode' + userZip + '.apiResponse?apikey='
         }
     ];
-    // < --- ========== End API KEYS ========== --- >
-
-    // --------------- DEPRECATED TESTING ---------------
-    // < --- ========== BEGIN API CALL FUNCTION ========== --- >
+    // < --- ==================== End API KEYS ==================== --- >
+key = apiKeys;
+    // ------------------------------  DEPRECATED TESTING -------------------------- ----
+    // < --- ==================== BEGIN API CALL FUNCTION ==================== --- >
     // let callAPI = function () {
     //     var queryURL = apiKeys[i].url + apiKeys[i].key;
 
@@ -47,47 +51,69 @@ $(document).ready(function () {
     // for (i = 0; i < apiKeys.length; i++) {
     //     //callAPI(); // calling our API method to test
     // }
-    // --------------- DEPRECATED TESTING ---------------
+    // ------------------------ ------ DEPRECATED TESTING --------------------------- ---
 
-    // < --- ========== BEGIN API SINGLE USE TESTING ========== --- >
-   
+    // < --- ==================== BEGIN API SINGLE USE TESTING ==================== --- >
 
-    let callAPI_test = function (url, key, api) {
+
+    let callAPI_test = function (url, key) {
         var queryURL = url + key;
-        name = api
         $.ajax({
             url: queryURL,
             method: "GET",
             success: function (data) {
-                 apiResponse.push(data); // trying to dynamically create a variable name - dunno if it is possible
+                apiResponse.push(data); // trying to dynamically create a variable name - dunno if it is possible
             }
-            // dataType: 'jsonp',
+            // dataType: 'jsonp', // optional - needed to work around a CORS warning/error
         }).then(function (response) {
-            
-            
             // do a bunch of cool things with our returned apiResponse data here
             //console.log(response); // testing API response   
             //console.log(apiResponse); 
         });
     } // end callAPI_test
 
-callAPI_test(apiKeys[0].url, apiKeys[0].key);
-callAPI_test(apiKeys[1].url, apiKeys[1].key);
+    
+    callAPI_test(apiKeys[0].url, apiKeys[0].key);
+    
 
-console.log(apiResponse); 
-// < --- ========== END API SINGLE USE TESTING ========== --- >
+    function userLocale() {
+        let zip = apiResponse[0].postal;
+        userZip = zip;
+        apiKeys[1].zip = zip;
+        $('#info1').text('User zip: ' + zip);
+    }
 
+    // userLocale();
+    // console.log(apiResponse);
+    // console.log(apiKeys);
+    // < --- ========== END API SINGLE USE TESTING ========== --- >
 
-    // just testing the magic css animation library
-    $('.yourdiv').hover(function () {
-        $(this).addClass('magictime puffIn');
-    })
+// $('#start').on('click', function() {
+// $('#splash').css('opacity', '0');
+// $('#menu1').css('opacity', '1');
+// setTimeout(function() {
+// $('#splash').addClass('hidden');
+// $('#menu1').removeClass('hidden');
+// }, 1000)
+    
+// });
+
+$('#start').on('click', function() {
+    userLocale();
+    $('.menu1-btn').addClass('scale-in');
+    // $('.menu1-btn').removeClass('scale-out');
+})
+
+$('#event').on('click', function() {
+    callAPI_test(apiKeys[1].url, apiKeys[1].key);
+    console.log(apiResponse[1])
+})
 
 }) // end document.ready
 
 
 
-// --- ========== API KEYS NOT YET IN APIKEYS ARRAY ========== --- //
+// --- ==================== API KEYS NOT YET IN APIKEYS ARRAY ==================== --- //
 /*
 
 / ----------------------------------------------------------------- /
@@ -96,4 +122,4 @@ IMDB - movies (1000 per day max)
 / ----------------------------------------------------------------- /
 
 */
-// --- ========== API KEYS NOT YET IN APIKEYS ARRAY ========== --- //
+// < --- ==================== API KEYS NOT YET IN APIKEYS ARRAY ==================== --- > 

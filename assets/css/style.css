@@ -1,0 +1,48 @@
+body {
+    text-align: center;
+}
+
+/* .hidden {
+    display: none;
+    opacity: 0;
+}
+
+.visible {
+    opacity: 1;
+} */
+
+/* .icons {
+    /* height: 10em; */
+    
+/* } */ 
+
+.btn-large {
+    margin: 4em 0 4em 0;
+}
+
+.test1 {
+    background: teal;
+    color: whitesmoke;
+}
+
+.test2 {
+    background: lightskyblue;
+    color: black;
+}
+
+.test3 {
+    background: lightcoral;
+    color: whitesmoke;
+}
+
+#splash {
+    transition: 1s;
+}
+
+#menu1 {
+    transition: 1s;
+}
+
+#event {
+    transition-delay: 1s;
+}
