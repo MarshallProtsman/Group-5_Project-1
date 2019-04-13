@@ -1,6 +1,7 @@
 // wrapping js in document.ready() function
 $(document).ready(function () {
 
+    userZip = 30308;
 // < --- ========== Begin API KEYS ========== --- >
 // placing our keys here so we can reuse ajax method
     var apiKeys = [
@@ -17,7 +18,7 @@ $(document).ready(function () {
         },
         {
         api: 'restaurants',
-        url: 'http://opentable.herokuapp.com/api'
+        url: 'http://opentable.herokuapp.com/api/restaurants?per_page=5&zip=' + userZip
         }
     ];
 // < --- ========== End API KEYS ========== --- >
@@ -40,21 +41,23 @@ $(document).ready(function () {
 
     var queryURL = apiKeys[2].url;
 
-    let API2 = function() {
+    let APIRestaurant = function() {
     $.ajax({
         url: queryURL,
         method: "GET",
         dataType: 'jsonp',
     }).then(function (response) {
+        console.log(response)
         // do a bunch of cool things with our returned json data here
-
-       
-        console.log(response); // preserved this just in case i need to quickly console this json data out 
+        for (i = 0; i < 5; i++) {
+            let rest = response.restaurants[i]
+        console.log(rest.name, rest.price, rest.address); // preserved this just in case i need to quickly console this json data out 
+       }
     });
 
     };
 
-    API2(); // calling our API method to test
+    APIRestaurant(); // calling our APIRestaurant method to test
 
     $('.yourdiv').hover(function () {
         $(this).addClass('magictime puffIn');
@@ -62,22 +65,6 @@ $(document).ready(function () {
 
     console.log("Stayed at the ace hotel!");
 });
-
-// Zomato API currently not working
-
-// var settings = {
-//     "async": true,
-//     "crossDomain": true,
-//     "url": "https://developers.zomato.com/api/v2.1/search",
-//     "method": "GET",
-//     "headers":  {  "user-key": "6ec3f618b006cec7089be0c10c568cb3",
-//     "cache-control": "no-cache",
-//     "Postman-Token": "1acf25ec-0136-4f6a-ab15-e70d19695c16"
-//     }
-//     }
-//  .ajax(settings).done(function (response)  {
-//     console.log(response);
-//  });
 
 
 
