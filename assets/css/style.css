@@ -46,3 +46,13 @@ body {
 #event {
     transition-delay: 1s;
 }
+
+.testContainer {
+    background: grey;
+    padding: 5%;
+    margin: 1em;
+}
+
+.image {
+    max-height: 3em;
+}

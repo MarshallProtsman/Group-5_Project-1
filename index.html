@@ -27,9 +27,9 @@
         <div class="col s2" id="info6"></div>
     </section>
 
-<section id="content">
-    <!-- content rendered dynamically here -->
-</section>
+    <section id="content">
+        <!-- content rendered dynamically here -->
+    </section>
 
 
     <section>
@@ -44,26 +44,62 @@
 
 
     <section>
+        <!-- just some neat placeholder buttons to test -->
         <div class="row iconRow" id="menu1">
-            <div class="col s12 l4 icons">
-                <button id="dining" class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i class="fas fa-utensils"></i>
+            <div class="col s4 l4 icons">
+                <button id="dining"
+                    class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i
+                        class="fas fa-utensils"></i>
                 </button>
             </div>
-            <div class="col s12 l4 icons">
-                <button id="movie" class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i class="fas fa-film"></i> </button>
+            <div class="col s4 l4 icons">
+                <button id="movie"
+                    class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i
+                        class="fas fa-film"></i> </button>
             </div>
-            <div class="col s12 l4  icons">
-                <button id="event" class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i class="fas fa-ticket-alt"></i>
+            <div class="col s4 l4  icons">
+                <button id="event"
+                    class="btn-floating btn-large waves-effect waves-light menu1-btn scale-transition scale-out"> <i
+                        class="fas fa-ticket-alt"></i>
                 </button>
             </div>
+        </div>
 
+        <!-- here is our city with optional user input -->
+        <div class="testContainer">
+            <h3 id="city">hello cleveland!</h3>
+            <!-- confirm the ity -->
+            <div id="confirm">
+                <button>yes</button>
+                <button>no</button>
+                <!-- if no, input the city by user -->
+                <div class="input-field">
+                    <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                    <label for="your_city">Optional Your City</label>
+                </div>
+            </div>
+        </div>
 
+        <!-- some options to set up our tickermaster api call -->
+        <div id="eventsOptions" class="testContainer">
+            <h3>What events are you interested in?</h3>
+            <button>music</button>
+            <button>theater</button>
+            <button>escape rooms</button>
+            <button>museums</button>
+            <button>arts</button>
+            <button>dance</button>
+            <!-- submit button -->
+
+            <div style="margin-top: 2em"><button id="eventSearch">Go</button></div>
 
         </div>
-        <div class="iconRow" id="menu2">
-            <button id="display">show</button>
-            <div id="event"></div>
+        <!-- show us the vents -->
+        <div class="testContainer">
+            <div id="eventsList"></div>
         </div>
+
+
     </section>
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
