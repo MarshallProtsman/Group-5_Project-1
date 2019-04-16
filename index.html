@@ -18,25 +18,16 @@
 
 <body>
 
-    <section>
-        <div class="col s2" id="info1"></div>
-        <div class="col s2" id="info2"></div>
-        <div class="col s2" id="info3"></div>
-        <div class="col s2" id="info4"></div>
-        <div class="col s2" id="info5"></div>
-        <div class="col s2" id="info6"></div>
-    </section>
-
     <section id="content">
         <!-- content rendered dynamically here -->
     </section>
 
-
-    <section>
+    <section >
         <div class="container-fluid">
             <div id="splash" class="row">
                 <div class="col s12 yourdiv test2">
                     <button id="start" class="btn-floating btn-large pulse"><i class="fas fa-heart"></i></button>
+                    <div>Let's plan your awesome date</div>
                 </div>
             </div>
         </div>
@@ -44,7 +35,8 @@
 
 
     <section>
-        <!-- just some neat placeholder buttons to test -->
+        
+        <!-- just some neat placeholder buttons to test 
         <div class="row iconRow" id="menu1">
             <div class="col s4 l4 icons">
                 <button id="dining"
@@ -63,44 +55,57 @@
                         class="fas fa-ticket-alt"></i>
                 </button>
             </div>
-        </div>
+        </div> -->
 
         <!-- here is our city with optional user input -->
         <div class="testContainer">
-            <h3 id="city">hello cleveland!</h3>
+            <h5 id="city">hello cleveland!</h5>
             <!-- confirm the ity -->
             <div id="confirm">
-                <button>yes</button>
-                <button>no</button>
+                <button class="locationYes">yes</button>
+                <button id="locationNo">no</button>
                 <!-- if no, input the city by user -->
-                <div class="input-field">
+                <div class="input-field" id="cityForm" style="display: none">
                     <input placeholder="Placeholder" id="first_name" type="text" class="validate">
                     <label for="your_city">Optional Your City</label>
+                    <button class="locationYes">oops... nevermind</button>
                 </div>
             </div>
         </div>
 
         <!-- some options to set up our tickermaster api call -->
         <div id="eventsOptions" class="testContainer">
-            <h3>What events are you interested in?</h3>
-            <button>music</button>
-            <button>theater</button>
-            <button>escape rooms</button>
-            <button>museums</button>
-            <button>arts</button>
-            <button>dance</button>
+            <h5>What events are you interested in?</h5>
+            <div id="btn-events">
+            <button class="btn-events">music</button>
+            <button class="btn-events">theater</button>
+            <button class="btn-events">escape rooms</button>
+            <button class="btn-events">science</button>
+            <button class="btn-events">art</button>
+            <button class="btn-events">dance</button>
+            <button class="btn-events">sports</button>
+        </div>
             <!-- submit button -->
 
             <div style="margin-top: 2em"><button id="eventSearch">Go</button></div>
 
         </div>
-        <!-- show us the vents -->
+        <!-- show us the events -->
         <div class="testContainer">
+            <div id="paramsList"></div>
             <div id="eventsList"></div>
         </div>
-
-
     </section>
+
+    <div class="overlay">
+    <div class="loader " style="width: 60%; margin: auto; min-width: 200px;">
+            <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <div id="loaderText">Loading something awesome...</div>
+                
+    </div>
+</div>
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

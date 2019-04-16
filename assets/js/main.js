@@ -12,9 +12,9 @@ $(document).ready(function () {
     let radius = "5000"
     let yelpApiKey = "4YFPvbnRG_3T1cP_B2tCpTFPpKnV2tgIvSmz926QynUmbZFl_y3eNsVBWjZLTNqx8y5Lth__B95rWD5_-iU0BF4Mpk9Dqz7LhB8gOq-ekL0guI0Wm1MQHX4jSUK2XHYx"
 
+    
 
-
-    //    just set the info for the ticketmaster call as an object (temporary for testing)
+    // just set the info for the ticketmaster call as an object (temporary for testing)
     let apiEvent = {
         api: 'events',
         zip: '',
@@ -26,8 +26,13 @@ $(document).ready(function () {
         }
     };
 
-    // ==================== Begin GeoLocation API Call ====================
+    /* ----------------------------------------------------------------------------------- */
+    // --------------------------------- BEGIN API CALLs --------------------------------- //
+    /* ----------------------------------------------------------------------------------- */
+
+    // ==================== BEGIN GeoLocation API Call ====================
     let callAPIGeo = function () {
+        loaderText = 'Finding your location...';
         let url = 'https://api.ipdata.co/?api-key=';
         const key = '8bf6f7f9f28c7ed5495f6f6353d07d28a05c6bb9fbab598f32e7cba3';
         var queryURL = url + key;
@@ -45,36 +50,87 @@ $(document).ready(function () {
             console.log('User latitude is ' + latitude); // tell us the lat
             console.log('User longitude is ' + longitude); // tell us the long
             console.log('You are in ' + city);
+            console.log(response); // returns the initial ip address geolocation data // TEST CODE
+            //latitude = response.latitude; // sets current lat // TEST CODE
+            // longitude = response.longitude; // sets current long // TEST CODE
+            city = response.city; // sets city - swap for whatever location data we end up using - change variable name!!!!
+            // console.log('User latitude is ' + latitude); // tell us the lat // TEST CODE
+            //  console.log('User longitude is ' + longitude); // tell us the long // TEST CODE
+            console.log('You are in ' + city); // TEST CODE
+            $('#city').text('It looks like you are in ' + city + '.  Is this correct?'); // populates the text for location (depends on APIResponse === true)
         });
     };
-    // ==================== End GeoLocation API Call ====================
-    let callAPIEvents = function () {
+    // ==================== END GeoLocation API Call ====================
+
+    // ==================== BEGIN Events API Call ====================
+    let callAPIEvents = function () { // Begin ajax call for events
+        loaderText = 'Finding awesome events near you...';
         let url = 'https://app.ticketmaster.com/discovery/v2/events.json?city=';
         const key = '1WLkNy3Qylx70A9ds5a5gXCT2PNoGeGq';
-        var queryURL = url + city + '&apikey=' + key;
+
+
+        classifications = '';
+         
+        for (i=0; i < params.length; i++) {
+            let newClassification = params[i] + '&';
+            classifications = classifications + newClassification;
+            console.log(newClassification);
+        };
+       
+        console.log(classifications);
+    
+        // ===== TESTING CODE =====
+        
+        $('#paramsList').empty();
+        for (i = 0; i < params.length; i++) {
+            let paramItem = $('<h3>');
+            paramItem.text(params[i]);
+            $('#paramsList').append(paramItem);
+        };
+
+        //classificationName
+        // need a loop to add params based on user selection into query url - easy fix :)
+        // ===== TESTING CODE =====
+
+        let queryURL = url + city + '&keyword=' + classifications + 'apikey=' + key; // city pulled from geolocatin API call (this could be moved to be called on load for efficeincy instead of tied to a click event)
         $.ajax({
             url: queryURL,
             method: "GET",
             // dataType: 'jsonp', // optional - needed to work around a CORS warning/error
         }).then(function (response) {
-            console.log(response); // returns the initial ip address geolocation data
+            console.log(response); // returns the initial ip address geolocation data // TEST CODE 
+            $('#eventsList').empty();
+            // ===== Begin Event List Rendering =====
+            // NOTE: Most of the event details should be rendered in a modal - show only the key data (event, time, date, etc.) in the list items
             for (i = 0; i < response._embedded.events.length; i++) {
-                console.log(response._embedded.events[i].name);
-                let event = response._embedded.events[i].name;
-                let image = response._embedded.events[i].images[5].url;
-                let imageEvent = $('<img>');
-                imageEvent.attr('src', image);
-                imageEvent.addClass('image');
+                // console.log(response._embedded.events[i].name); // TEST CODE
+                
+                // ===== Begin Event Item core data (main data like name, date, etc.) =====
+                let event = response._embedded.events[i].name; // get event name
                 let eventItem = $('<div>');
                 eventItem.text(event);
                 $('#eventsList').append(eventItem);
                 $('#eventsList').append(imageEvent);
-            }
-        });
+         
 
-            // ==================== Yelp API ====================
+            
+        
+                // ===== End Event Item core data (main data like name, date, etc.) =====
+
+                // ===== Begin Event Details core data (extra data for modals) =====
+                let image = response._embedded.events[i].images[5].url; // get event img 
+                let imageEvent = $('<img>');
+                imageEvent.attr('src', image);
+                imageEvent.addClass('image');
+                $('#eventsList').append(imageEvent); // this may be swapped (we may not need images) or added to a seperate element that popualates on event details modal
+                // ===== End Event Details core data (extra data for modals) =====
+            } // ===== End Event List Rendering =====
+        }); // ===== End ajax .then actions
+        };
+
+        // ==================== Yelp API ====================
         let yelpQueryURL = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&location=${location}&price=${price}&radius=${radius}`;
-        console.log(queryURL)
+        console.log(yelpQueryURL)
         
         $.ajax({
             url: yelpQueryURL,
@@ -87,26 +143,82 @@ $(document).ready(function () {
             console.log(response)
             console.log(response.businesses[0].alias)
         });
-    };
+        // ==================== END Events API Call ====================
+
+    /* ----------------------------------------------------------------------------------- */
+    // ---------------------------------- END API CALLs ---------------------------------- //
+    /* ----------------------------------------------------------------------------------- */
 
 
-    // ==================== click to start app - populate dining, movie, event buttons ====================
+    /* ----------------------------------------------------------------------------------- */
+    // ------------------------------ BEGIN EVENT LISTENERS ------------------------------ //
+    /* ----------------------------------------------------------------------------------- */
+
+    // ==================== BEGIN - CLICK EVENT - start app - populate ip-based geo location ====================
     $('#start').on('click', function () {
+
+        // $('.overlay').removeClass('hidden'); // TEST CODE
         callAPIGeo(); // gets the initial geolocation data for the user
         if (APIResponse === true) {
-            $('.menu1-btn').addClass('scale-in'); // reveals the next menu options (these will eventually be in a seperate component)
-            $('#city').text('It looks like you are in ' + city + '.  Is this correct?'); // populates the text for location (depends on APIResponse === true)
-        } else {
-            alert('Loading data - please wait and try again...'); // placeholder for loading - set loading animation and error timeout modal
+            // $('.overlay').addClass('hidden'); // TEST CODE
+            // $('.menu1-btn').addClass('scale-in'); // reveals the next menu options (these will eventually be in a seperate component)
         };
     });
+    // ==================== END - CLICK EVENT - start app - populate ip-based geo location ====================
 
-    $('#eventSearch').on('click', function() {
-        callAPIEvents();
-        
+    // ---------- Click Event - Location Confirmation
+    $('#locationYes').on('click', function () {
+        console.log('User confirmed - update view...');
+        // this is going to change our view here
     })
 
+    $('#locationNo').on('click', function () {
+        // displays the hidden form to update the city
+        $('#cityForm').css('display', 'block');
+    })
+
+    // ---------- Click Event - Events API Call
+    $('#eventSearch').on('click', function () {
+        callAPIEvents();
+    })
+
+    // ---------- Ajax Loading Animations
+    $(document).ajaxStart(function () {
+        $('#loaderText').text(loaderText);
+        $(".overlay").css("display", "block");
+        $(".overlay").css("opacity", "1");
+    });
+
+    $(document).ajaxComplete(function () {
+        $(".overlay").css("opacity", "0");
+        setTimeout(function () {
+            $(".overlay").css("display", "none");
+        }, 1000);
+    });
+
+    // ---------- adding and removing event search parameters from params array
+    $('.btn-events').on('click', function () {
+        param = $(this).text(); // gets button text
+        let paramIndex = params.indexOf(param); // gets index position of this event param
+        if ($(this).hasClass('btn-events-active')) { // checks to see if added
+            $(this).removeClass('btn-events-active'); // removes if in params array
+            params.splice(paramIndex, 1);
+        } else {
+            $(this).addClass('btn-events-active'); // adds active class to this
+            params.push($(this).text()) // adds to params array
+        };
+        console.log('events params: ' + params);  // TEST Code
+    });
+
+    /* ----------------------------------------------------------------------------------- */
+    // ------------------------------- END EVENT LISTENERS ------------------------------- //
+    /* ----------------------------------------------------------------------------------- */
+
+
+    // =============== BEGIN COMMON FUNCTIONS (TRANSITIONS) ===============
+    // ----- use this space to define things that can be recycled, like transitions 
+    // =============== END COMMON FUNCTIONS (TRANSITIONS) ===============
 });
 
 
-// _embedded.events[""0""]
+
