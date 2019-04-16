@@ -28,6 +28,7 @@ $(document).ready(function () {
             // dataType: 'jsonp', // optional - needed to work around a CORS warning/error
         }).then(function (response) {
             APIResponse = true;
+            console.log(APIResponse);
             console.log(response); // returns the initial ip address geolocation data
             latitude = response.latitude; // sets current lat
             longitude = response.longitude; // sets current long
@@ -66,12 +67,12 @@ $(document).ready(function () {
 
     // ==================== click to start app - populate dining, movie, event buttons ====================
     $('#start').on('click', function () {
+        // $('.overlay').removeClass('hidden');
         callAPIGeo(); // gets the initial geolocation data for the user
         if (APIResponse === true) {
+            // $('.overlay').addClass('hidden');
             $('.menu1-btn').addClass('scale-in'); // reveals the next menu options (these will eventually be in a seperate component)
             $('#city').text('It looks like you are in ' + city + '.  Is this correct?'); // populates the text for location (depends on APIResponse === true)
-        } else {
-            alert('Loading data - please wait and try again...'); // placeholder for loading - set loading animation and error timeout modal
         };
     });
 
@@ -79,6 +80,20 @@ $(document).ready(function () {
         callAPIEvents();
         
     })
+
+    $(document).ajaxStart(function(){
+        $(".overlay").css("display", "block");
+        $(".overlay").css("opacity", "1");
+      });
+      
+      
+      $(document).ajaxComplete(function(){
+        $(".overlay").css("opacity", "0");
+          setTimeout( function() {
+            
+        $(".overlay").css("display", "none");
+          },2000);
+      });
 
 });
 
