@@ -7,6 +7,10 @@ body {
     opacity: 0;
 }
 
+.displayNone {
+    display: none;
+}
+
 .visible {
     opacity: 1;
 } 
@@ -17,7 +21,7 @@ body {
 /* } */ 
 
 .btn-large {
-    margin: 4em 0 4em 0;
+    margin: 4em 0 2em 0;
 }
 
 .test1 {
@@ -73,4 +77,17 @@ body {
 
 .loader {
    color: grey;
+}
+
+.btn-events {
+    background: yellow;
+    transition: .5s;
+}
+
+.btn-events-active {
+    background: orangered;
+}
+
+.btn-events:focus {
+    background: orangered;
 }
