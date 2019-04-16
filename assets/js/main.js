@@ -3,6 +3,15 @@ $(document).ready(function () {
     let longitude = ''; // this changes with each step in the app (initial ip geolocation, then dining, then event)
     let city = '';
     let APIResponse = false;
+    
+    
+    // ==================== Yelp variables ====================
+    let category = "pizza"
+    let location = "30308"
+    let price = "2"
+    let radius = "5000"
+    let yelpApiKey = "4YFPvbnRG_3T1cP_B2tCpTFPpKnV2tgIvSmz926QynUmbZFl_y3eNsVBWjZLTNqx8y5Lth__B95rWD5_-iU0BF4Mpk9Dqz7LhB8gOq-ekL0guI0Wm1MQHX4jSUK2XHYx"
+
 
 
     //    just set the info for the ticketmaster call as an object (temporary for testing)
@@ -32,6 +41,7 @@ $(document).ready(function () {
             latitude = response.latitude; // sets current lat
             longitude = response.longitude; // sets current long
             city = response.city;
+            location = response.postal
             console.log('User latitude is ' + latitude); // tell us the lat
             console.log('User longitude is ' + longitude); // tell us the long
             console.log('You are in ' + city);
@@ -60,6 +70,22 @@ $(document).ready(function () {
                 $('#eventsList').append(eventItem);
                 $('#eventsList').append(imageEvent);
             }
+        });
+
+            // ==================== Yelp API ====================
+        let yelpQueryURL = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${category}&location=${location}&price=${price}&radius=${radius}`;
+        console.log(queryURL)
+        
+        $.ajax({
+            url: yelpQueryURL,
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${yelpApiKey}`
+            }
+        }).then(function(response) {
+            //let dbTestObject = {"name": response.businesses[2].name, "id": response.businesses[2].id};
+            console.log(response)
+            console.log(response.businesses[0].alias)
         });
     };
 
