@@ -34,13 +34,13 @@ $(document).ready(function () {
             // dataType: 'jsonp', // optional - needed to work around a CORS warning/error
         }).then(function (response) {
             APIResponse = true;
-            // console.log(response); // returns the initial ip address geolocation data // TEST CODE
+            console.log(response); // returns the initial ip address geolocation data // TEST CODE
             //latitude = response.latitude; // sets current lat // TEST CODE
             // longitude = response.longitude; // sets current long // TEST CODE
             city = response.city; // sets city - swap for whatever location data we end up using - change variable name!!!!
             // console.log('User latitude is ' + latitude); // tell us the lat // TEST CODE
             //  console.log('User longitude is ' + longitude); // tell us the long // TEST CODE
-            // console.log('You are in ' + city); // TEST CODE
+            console.log('You are in ' + city); // TEST CODE
             $('#city').text('It looks like you are in ' + city + '.  Is this correct?'); // populates the text for location (depends on APIResponse === true)
         });
     };
@@ -52,30 +52,43 @@ $(document).ready(function () {
         let url = 'https://app.ticketmaster.com/discovery/v2/events.json?city=';
         const key = '1WLkNy3Qylx70A9ds5a5gXCT2PNoGeGq';
 
+
+        classifications = '';
+         
+        for (i=0; i < params.length; i++) {
+            let newClassification = params[i] + '&';
+            classifications = classifications + newClassification;
+            console.log(newClassification);
+        };
+       
+        console.log(classifications);
+    
         // ===== TESTING CODE =====
-        console.log('need to add these to our events query: ' + params);
+        
         $('#paramsList').empty();
         for (i = 0; i < params.length; i++) {
             let paramItem = $('<h3>');
             paramItem.text(params[i]);
             $('#paramsList').append(paramItem);
         };
+
+        //classificationName
         // need a loop to add params based on user selection into query url - easy fix :)
         // ===== TESTING CODE =====
 
-        let queryURL = url + city + '&apikey=' + key; // city pulled from geolocatin API call (this could be moved to be called on load for efficeincy instead of tied to a click event)
+        let queryURL = url + city + '&keyword=' + classifications + 'apikey=' + key; // city pulled from geolocatin API call (this could be moved to be called on load for efficeincy instead of tied to a click event)
         $.ajax({
             url: queryURL,
             method: "GET",
             // dataType: 'jsonp', // optional - needed to work around a CORS warning/error
         }).then(function (response) {
-            // console.log(response); // returns the initial ip address geolocation data // TEST CODE 
-
+            console.log(response); // returns the initial ip address geolocation data // TEST CODE 
+            $('#eventsList').empty();
             // ===== Begin Event List Rendering =====
             // NOTE: Most of the event details should be rendered in a modal - show only the key data (event, time, date, etc.) in the list items
             for (i = 0; i < response._embedded.events.length; i++) {
                 // console.log(response._embedded.events[i].name); // TEST CODE
-
+                
                 // ===== Begin Event Item core data (main data like name, date, etc.) =====
                 let event = response._embedded.events[i].name; // get event name
                 let eventItem = $('<div>');
@@ -148,21 +161,16 @@ $(document).ready(function () {
 
     // ---------- adding and removing event search parameters from params array
     $('.btn-events').on('click', function () {
-
-        param = $(this).text();
-        let paramIndex = params.indexOf(param);
-
-        if ($(this).hasClass('btn-events-active')) {
-            console.log('Already active - removed from events params'); // TEST CODE
-            $(this).removeClass('btn-events-active');
+        param = $(this).text(); // gets button text
+        let paramIndex = params.indexOf(param); // gets index position of this event param
+        if ($(this).hasClass('btn-events-active')) { // checks to see if added
+            $(this).removeClass('btn-events-active'); // removes if in params array
             params.splice(paramIndex, 1);
-            console.log(paramIndex); // TESt CODE
-            console.log(params); // TEST CODE
         } else {
-            $(this).addClass('btn-events-active');
-            params.push($(this).text()) // TEST CODE
-            console.log(params);  // TEST Code
+            $(this).addClass('btn-events-active'); // adds active class to this
+            params.push($(this).text()) // adds to params array
         };
+        console.log('events params: ' + params);  // TEST Code
     });
 
     /* ----------------------------------------------------------------------------------- */
